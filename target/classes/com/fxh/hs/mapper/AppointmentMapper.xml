@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fxh.hs.mapper.AppointmentMapper" >
+  <resultMap id="BaseResultMap" type="com.fxh.hs.entity.Appointment" >
+    <id column="aid" property="aid" jdbcType="INTEGER" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="pname" property="pname" jdbcType="VARCHAR" />
+    <result column="mid" property="mid" jdbcType="INTEGER" />
+    <result column="visitime" property="visitime" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.fxh.hs.entity.Appointment" extends="BaseResultMap" >
+    <result column="visitseq" property="visitseq" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    aid, uid, pname, mid, visitime
+  </sql>
+  <sql id="Blob_Column_List" >
+    visitseq
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.fxh.hs.entity.AppointmentExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from appointment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fxh.hs.entity.AppointmentExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from appointment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from appointment
+    where aid = #{aid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from appointment
+    where aid = #{aid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fxh.hs.entity.AppointmentExample" >
+    delete from appointment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.fxh.hs.entity.Appointment" >
+    insert into appointment (aid, uid, pname, 
+      mid, visitime, visitseq
+      )
+    values (#{aid,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{pname,jdbcType=VARCHAR}, 
+      #{mid,jdbcType=INTEGER}, #{visitime,jdbcType=VARCHAR}, #{visitseq,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.fxh.hs.entity.Appointment" >
+    insert into appointment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="aid != null" >
+        aid,
+      </if>
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="pname != null" >
+        pname,
+      </if>
+      <if test="mid != null" >
+        mid,
+      </if>
+      <if test="visitime != null" >
+        visitime,
+      </if>
+      <if test="visitseq != null" >
+        visitseq,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="aid != null" >
+        #{aid,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="pname != null" >
+        #{pname,jdbcType=VARCHAR},
+      </if>
+      <if test="mid != null" >
+        #{mid,jdbcType=INTEGER},
+      </if>
+      <if test="visitime != null" >
+        #{visitime,jdbcType=VARCHAR},
+      </if>
+      <if test="visitseq != null" >
+        #{visitseq,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fxh.hs.entity.AppointmentExample" resultType="java.lang.Integer" >
+    select count(*) from appointment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update appointment
+    <set >
+      <if test="record.aid != null" >
+        aid = #{record.aid,jdbcType=INTEGER},
+      </if>
+      <if test="record.uid != null" >
+        uid = #{record.uid,jdbcType=INTEGER},
+      </if>
+      <if test="record.pname != null" >
+        pname = #{record.pname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mid != null" >
+        mid = #{record.mid,jdbcType=INTEGER},
+      </if>
+      <if test="record.visitime != null" >
+        visitime = #{record.visitime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.visitseq != null" >
+        visitseq = #{record.visitseq,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update appointment
+    set aid = #{record.aid,jdbcType=INTEGER},
+      uid = #{record.uid,jdbcType=INTEGER},
+      pname = #{record.pname,jdbcType=VARCHAR},
+      mid = #{record.mid,jdbcType=INTEGER},
+      visitime = #{record.visitime,jdbcType=VARCHAR},
+      visitseq = #{record.visitseq,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update appointment
+    set aid = #{record.aid,jdbcType=INTEGER},
+      uid = #{record.uid,jdbcType=INTEGER},
+      pname = #{record.pname,jdbcType=VARCHAR},
+      mid = #{record.mid,jdbcType=INTEGER},
+      visitime = #{record.visitime,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fxh.hs.entity.Appointment" >
+    update appointment
+    <set >
+      <if test="uid != null" >
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="pname != null" >
+        pname = #{pname,jdbcType=VARCHAR},
+      </if>
+      <if test="mid != null" >
+        mid = #{mid,jdbcType=INTEGER},
+      </if>
+      <if test="visitime != null" >
+        visitime = #{visitime,jdbcType=VARCHAR},
+      </if>
+      <if test="visitseq != null" >
+        visitseq = #{visitseq,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where aid = #{aid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.fxh.hs.entity.Appointment" >
+    update appointment
+    set uid = #{uid,jdbcType=INTEGER},
+      pname = #{pname,jdbcType=VARCHAR},
+      mid = #{mid,jdbcType=INTEGER},
+      visitime = #{visitime,jdbcType=VARCHAR},
+      visitseq = #{visitseq,jdbcType=LONGVARCHAR}
+    where aid = #{aid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fxh.hs.entity.Appointment" >
+    update appointment
+    set uid = #{uid,jdbcType=INTEGER},
+      pname = #{pname,jdbcType=VARCHAR},
+      mid = #{mid,jdbcType=INTEGER},
+      visitime = #{visitime,jdbcType=VARCHAR}
+    where aid = #{aid,jdbcType=INTEGER}
+  </update>
+  <insert id="setInfo" statementType="CALLABLE" parameterType="java.util.Map">
+  	<![CDATA[
+  		{
+  			call pro_appointment(
+  			#{_u_id,mode=IN,jdbcType=INTEGER},
+  			#{_p_name,mode=IN,jdbcType=VARCHAR},
+  			#{_m_id,mode=IN,jdbcType=INTEGER},
+  			#{_visit_time,mode=IN,jdbcType=VARCHAR},
+  			#{flag,mode=OUT,jdbcType=INTEGER}
+  			)
+  		}
+  	]]>
+  </insert>
+</mapper>

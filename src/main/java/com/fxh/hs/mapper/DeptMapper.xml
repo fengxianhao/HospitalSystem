@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fxh.hs.mapper.DeptMapper" >
+  <resultMap id="BaseResultMap" type="com.fxh.hs.entity.Dept" >
+    <id column="did" property="did" jdbcType="INTEGER" />
+    <result column="dname" property="dname" jdbcType="VARCHAR" />
+    <result column="dspec" property="dspec" jdbcType="VARCHAR" />
+    <result column="pdid" property="pdid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    did, dname, dspec, pdid
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fxh.hs.entity.DeptExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dept
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from dept
+    where did = #{did,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from dept
+    where did = #{did,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fxh.hs.entity.DeptExample" >
+    delete from dept
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.fxh.hs.entity.Dept" >
+    insert into dept (did, dname, dspec, 
+      pdid)
+    values (#{did,jdbcType=INTEGER}, #{dname,jdbcType=VARCHAR}, #{dspec,jdbcType=VARCHAR}, 
+      #{pdid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fxh.hs.entity.Dept" >
+    insert into dept
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="did != null" >
+        did,
+      </if>
+      <if test="dname != null" >
+        dname,
+      </if>
+      <if test="dspec != null" >
+        dspec,
+      </if>
+      <if test="pdid != null" >
+        pdid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="did != null" >
+        #{did,jdbcType=INTEGER},
+      </if>
+      <if test="dname != null" >
+        #{dname,jdbcType=VARCHAR},
+      </if>
+      <if test="dspec != null" >
+        #{dspec,jdbcType=VARCHAR},
+      </if>
+      <if test="pdid != null" >
+        #{pdid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fxh.hs.entity.DeptExample" resultType="java.lang.Integer" >
+    select count(*) from dept
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update dept
+    <set >
+      <if test="record.did != null" >
+        did = #{record.did,jdbcType=INTEGER},
+      </if>
+      <if test="record.dname != null" >
+        dname = #{record.dname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dspec != null" >
+        dspec = #{record.dspec,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pdid != null" >
+        pdid = #{record.pdid,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update dept
+    set did = #{record.did,jdbcType=INTEGER},
+      dname = #{record.dname,jdbcType=VARCHAR},
+      dspec = #{record.dspec,jdbcType=VARCHAR},
+      pdid = #{record.pdid,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fxh.hs.entity.Dept" >
+    update dept
+    <set >
+      <if test="dname != null" >
+        dname = #{dname,jdbcType=VARCHAR},
+      </if>
+      <if test="dspec != null" >
+        dspec = #{dspec,jdbcType=VARCHAR},
+      </if>
+      <if test="pdid != null" >
+        pdid = #{pdid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where did = #{did,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fxh.hs.entity.Dept" >
+    update dept
+    set dname = #{dname,jdbcType=VARCHAR},
+      dspec = #{dspec,jdbcType=VARCHAR},
+      pdid = #{pdid,jdbcType=INTEGER}
+    where did = #{did,jdbcType=INTEGER}
+  </update>
+</mapper>
